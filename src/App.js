@@ -6,6 +6,7 @@ class App extends React.Component {
 
     this.state = {
       monsters: [],
+      searchField: '',
     };
   }
 
@@ -22,9 +23,22 @@ class App extends React.Component {
   }
 
   render() {
+    const filteredMonsters = this.state.monsters.filter((monster) => {
+      return monster.name.toLocaleLowerCase().includes(this.state.searchField);
+    });
+
     return (
       <div className='App'>
-        {this.state.monsters.map((monster) => {
+        <input
+          type='search'
+          className='search-box'
+          placeholder='search monsters'
+          onChange={(event) => {
+            const searchField = event.target.value.toLocaleLowerCase();
+            this.setState(() => ({ searchField }));
+          }}
+        />
+        {filteredMonsters.map((monster) => {
           return (
             <div key={monster.id}>
               <h1>{monster.name}</h1>
